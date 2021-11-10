@@ -1,17 +1,25 @@
-import { BoxBufferGeometry, Mesh, MeshBasicMaterial } from "three";
 import Application from "../Application";
+import Environment from "./Environment";
+import Floor from "./Floor";
+import Fox from "./Fox";
 
 export default class World {
     constructor() {
         // Singleton
         const application = new Application()
         this.scene = application.scene
+        this.resources = application.resources
 
-        // Test Cube
-        const cube = new Mesh(
-            new BoxBufferGeometry(1, 1, 1),
-            new MeshBasicMaterial({ wireframe: true })
-        )
-        this.scene.add(cube)
+        this.resources.on('loaded', () => {
+            this.floor = new Floor()
+            this.fox = new Fox()
+            this.environment = new Environment()
+        })
+    }
+
+    update() {
+        if (this.fox) {
+            this.fox.update()
+        }
     }
 }

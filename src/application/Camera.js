@@ -17,7 +17,7 @@ export default class Camera {
     setInstance() {
         const aspectRatio = this.sizes.width / this.sizes.height
         this.instance = new PerspectiveCamera(35, aspectRatio, 0.1, 100)
-        this.instance.position.set(0, 0, -5)
+        this.instance.position.set(10, 10, 10)
         this.scene.add(this.instance)
     }
 
