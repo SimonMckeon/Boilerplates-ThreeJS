@@ -9,13 +9,13 @@ import World from "./world/World"
 import sources from './sources'
 import Debug from "./utils/Debug"
 
-let instance
-
 // TODO: A cleaner implementation of Application singleton
 export default class Application {
+    static instance 
+
     constructor(canvas) {
-        if (instance) return instance
-        instance = this
+        if (this.instance) return this.instance
+        this.nstance = this
 
         this.canvas = canvas
 
