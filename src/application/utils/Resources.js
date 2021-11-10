@@ -1,5 +1,4 @@
-import { CubeTextureLoader, TextureLoader } from "three"
-import { GLTFLoader } from "three/examples/jsm/loaders/gltfLoader"
+import { CubeTextureLoader } from "three"
 import EventEmitter from "./EventEmitter"
 
 export default class Resources extends EventEmitter {
@@ -18,26 +17,13 @@ export default class Resources extends EventEmitter {
 
     setLoaders() {
         this.loaders = {
-            gltfLoader: new GLTFLoader(),
-            textureLoader: new TextureLoader(),
             cubeTexutureLoader: new CubeTextureLoader(),
         }
     }
 
-    // TODO: Better error reporting
     startLoading() {
         for (const source of this.sources) {
             switch (source.type) {
-                case "gltfModel":
-                    this.loaders.gltfLoader.load(source.path, file => {
-                        this.sourceLoaded(source, file)
-                    }, undefined, this.onError)
-                    break
-                case "texture":
-                    this.loaders.textureLoader.load(source.path, file => {
-                        this.sourceLoaded(source, file)
-                    }, undefined, this.onError)
-                    break
                 case "cubeTexture":
                     this.loaders.cubeTexutureLoader.load(source.path, file => {
                         this.sourceLoaded(source, file)
@@ -53,6 +39,7 @@ export default class Resources extends EventEmitter {
     }
 
     sourceLoaded(source, file) {
+        console.info(`Loaded: ${source.name}`)
         this.items[source.name] = file
         this.loaded++
 

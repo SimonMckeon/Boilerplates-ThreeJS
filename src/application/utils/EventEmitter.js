@@ -1,3 +1,7 @@
+/**
+ * EventEmitter by Bruno Simon
+ * https://bruno-simon.com/
+ */
 export default class EventEmitter {
     constructor() {
         this.callbacks = {}
