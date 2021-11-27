@@ -1,5 +1,5 @@
-import { BoxBufferGeometry, Mesh, MeshStandardMaterial } from "three";
-import Application from "../Application";
+import { BoxBufferGeometry, Mesh, MeshStandardMaterial } from "three"
+import Application from "../Application"
 
 export default class Cube {
     constructor() {
@@ -28,10 +28,11 @@ export default class Cube {
     }
 
     setDebug() {
-        this.debugFolder = this.debug.ui.addFolder('Cube')
-        this.debugFolder.add(this.mesh.position, 'x').min(-10).max(10).step(0.001)
-        this.debugFolder.add(this.mesh.position, 'y').min(-10).max(10).step(0.001)
-        this.debugFolder.add(this.mesh.position, 'z').min(-10).max(10).step(0.001)
+        if (!this.debug.active) return
+        this.debugFolder = this.debug.ui.addFolder("Cube")
+        this.debugFolder.add(this.mesh.position, "x", -10, 10, 0.01)
+        this.debugFolder.add(this.mesh.position, "y", -10, 10, 0.01)
+        this.debugFolder.add(this.mesh.position, "z", -10, 10, 0.01)
     }
 
     update() {
