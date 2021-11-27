@@ -6,7 +6,7 @@ import Sizes from "./utils/Sizes"
 import Time from "./utils/Time"
 import World from "./world/World"
 
-import sources from './sources'
+import assets from './assets'
 import Debug from "./utils/Debug"
 
 export default class Application {
@@ -22,7 +22,7 @@ export default class Application {
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new Scene()
-        this.resources = new Resources(sources)
+        this.resources = new Resources(assets)
         this.camera = new Camera()
         this.renderer = new Renderer()
         this.world = new World()

@@ -2,13 +2,13 @@ import { CubeTextureLoader } from "three"
 import EventEmitter from "./EventEmitter"
 
 export default class Resources extends EventEmitter {
-    constructor(sources) {
+    constructor(assets) {
         super()
 
-        this.sources = sources
+        this.assets = assets
 
         this.items = {}
-        this.toLoad = this.sources.length
+        this.toLoad = this.assets.length
         this.loaded = 0
 
         this.setLoaders()
@@ -22,11 +22,11 @@ export default class Resources extends EventEmitter {
     }
 
     startLoading() {
-        for (const source of this.sources) {
-            switch (source.type) {
+        for (const asset of this.assets) {
+            switch (asset.type) {
                 case "cubeTexture":
-                    this.loaders.cubeTexutureLoader.load(source.path, file => {
-                        this.sourceLoaded(source, file)
+                    this.loaders.cubeTexutureLoader.load(asset.path, file => {
+                        this.sourceLoaded(asset, file)
                     }, undefined, this.onError)
                     break
             }
@@ -38,9 +38,8 @@ export default class Resources extends EventEmitter {
         console.warn(`Failed to load resource`, filePath)
     }
 
-    sourceLoaded(source, file) {
-        console.info(`Loaded: ${source.name}`)
-        this.items[source.name] = file
+    sourceLoaded(asset, file) {
+        this.items[asset.name] = file
         this.loaded++
 
         if (this.loaded === this.toLoad) {
