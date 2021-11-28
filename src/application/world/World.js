@@ -9,7 +9,7 @@ export default class World {
         this.scene = application.scene
         this.resources = application.resources
         
-        this.resources.on('loaded', () => {
+        this.resources.on('load', () => {
             this.cube = new Cube()
             this.environment = new Environment()
         })

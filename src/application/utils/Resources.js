@@ -1,4 +1,4 @@
-import { CubeTextureLoader } from "three"
+import { CubeTextureLoader, LoadingManager } from "three"
 import EventEmitter from "./EventEmitter"
 
 export default class Resources extends EventEmitter {
@@ -6,18 +6,20 @@ export default class Resources extends EventEmitter {
         super()
 
         this.assets = assets
-
         this.items = {}
-        this.toLoad = this.assets.length
-        this.loaded = 0
 
         this.setLoaders()
         this.startLoading()
     }
 
     setLoaders() {
+        this.loadingManager = new LoadingManager()
+        this.loadingManager.onLoad = this.onLoad.bind(this)
+        this.loadingManager.onProgress = this.onProgress.bind(this)
+        this.loadingManager.onError = this.onError.bind(this)
+
         this.loaders = {
-            cubeTexutureLoader: new CubeTextureLoader(),
+            cubeTexutureLoader: new CubeTextureLoader(this.loadingManager),
         }
     }
 
@@ -26,24 +28,27 @@ export default class Resources extends EventEmitter {
             switch (asset.type) {
                 case "cubeTexture":
                     this.loaders.cubeTexutureLoader.load(asset.path, file => {
-                        this.sourceLoaded(asset, file)
-                    }, undefined, this.onError)
+                        this.assetLoaded(asset, file)
+                    })
                     break
             }
         }
     }
 
-    onError(event) {
-        const filePath = event.path[0].currentSrc
-        console.warn(`Failed to load resource`, filePath)
+    assetLoaded(asset, file) {
+        this.items[asset.name] = file
     }
 
-    sourceLoaded(asset, file) {
-        this.items[asset.name] = file
-        this.loaded++
+    onLoad() {
+        this.emit("load")
+    }
 
-        if (this.loaded === this.toLoad) {
-            this.emit('loaded')
-        }
+    onProgress(url, itemsLoaded, itemsTotal) {
+        this.emit("progress", [ url, itemsLoaded, itemsTotal ])
+    }
+
+    onError(url) {
+        console.error(`Failed to load asset ${url}`)
+        this.emit("error", [ url ])
     }
 }
