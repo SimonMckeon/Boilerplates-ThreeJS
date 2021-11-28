@@ -6,11 +6,11 @@ import Sizes from "./utils/Sizes"
 import Time from "./utils/Time"
 import World from "./world/World"
 
-import assets from './assets'
+import assets from "./assets"
 import Debug from "./utils/Debug"
 
 export default class Application {
-    static instance 
+    static instance
 
     constructor(canvas) {
         if (Application.instance) return Application.instance
@@ -27,8 +27,8 @@ export default class Application {
         this.renderer = new Renderer()
         this.world = new World()
 
-        this.sizes.on('resize', this.resize.bind(this))
-        this.time.on('tick', this.update.bind(this))
+        this.sizes.on("resize", this.resize.bind(this))
+        this.time.on("tick", this.update.bind(this))
     }
 
     resize() {
@@ -43,12 +43,12 @@ export default class Application {
     }
 
     destroy() {
-        this.sizes.off('resize')
-        this.time.off('tick')
-        this.resources.off('loaded')
+        this.sizes.off("resize")
+        this.time.off("tick")
+        this.resources.off("loaded")
         this.camera.controls.dispose()
         this.renderer.instance.dispose()
-        
+
         if (this.debug.active) {
             this.debug.ui.destroy()
         }
@@ -58,7 +58,7 @@ export default class Application {
                 child.geometry.dispose()
                 for (const key in child.material) {
                     const value = child.material[key]
-                    if (value && typeof value.dispose === 'function') {
+                    if (value && typeof value.dispose === "function") {
                         value.dispose
                     }
                 }

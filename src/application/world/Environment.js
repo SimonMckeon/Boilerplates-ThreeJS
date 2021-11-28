@@ -1,5 +1,5 @@
-import { Mesh, MeshStandardMaterial, PointLight, sRGBEncoding } from "three";
-import Application from "../Application";
+import { Mesh, MeshStandardMaterial, PointLight, sRGBEncoding } from "three"
+import Application from "../Application"
 
 export default class Environment {
     constructor() {
@@ -21,7 +21,7 @@ export default class Environment {
         this.environmentMap = {
             intensity: 0.4,
             texture: this.resources.items.environmentMapTexture,
-            encoding: sRGBEncoding
+            encoding: sRGBEncoding,
         }
         this.scene.environment = this.environmentMap.texture
 
